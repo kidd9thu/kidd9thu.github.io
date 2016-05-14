@@ -1,0 +1,745 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MySQL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="基本查询操作查询全部记录SELECT * FROM table_name or view_name[, table_name or view_name]
+查询指定列SELECT column_name[, column_name, ...] FROM table_name or view_name[, table_name or view_name]
+查询表中不重复的记录SELECT DISTIN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL介绍(2)： 数据查询（Data Query Language，DQL）">
+<meta property="og:url" content="https://kidd9thu.github.io/2016/05/10/mysql_2/index.html">
+<meta property="og:site_name" content="Gavin9' Blog">
+<meta property="og:description" content="基本查询操作查询全部记录SELECT * FROM table_name or view_name[, table_name or view_name]
+查询指定列SELECT column_name[, column_name, ...] FROM table_name or view_name[, table_name or view_name]
+查询表中不重复的记录SELECT DISTIN">
+<meta property="og:updated_time" content="2016-05-10T13:26:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL介绍(2)： 数据查询（Data Query Language，DQL）">
+<meta name="twitter:description" content="基本查询操作查询全部记录SELECT * FROM table_name or view_name[, table_name or view_name]
+查询指定列SELECT column_name[, column_name, ...] FROM table_name or view_name[, table_name or view_name]
+查询表中不重复的记录SELECT DISTIN">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> MySQL介绍(2)： 数据查询（Data Query Language，DQL） | Gavin9' Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Gavin9' Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MySQL介绍(2)： 数据查询（Data Query Language，DQL）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-10T15:13:13+08:00" content="2016-05-10">
+              2016-05-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Dev/" itemprop="url" rel="index">
+                    <span itemprop="name">Dev</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Dev/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基本查询操作"><a href="#基本查询操作" class="headerlink" title="基本查询操作"></a>基本查询操作</h2><h3 id="查询全部记录"><a href="#查询全部记录" class="headerlink" title="查询全部记录"></a>查询全部记录</h3><pre><code>SELECT * FROM table_name or view_name[, table_name or view_name]
+</code></pre><h3 id="查询指定列"><a href="#查询指定列" class="headerlink" title="查询指定列"></a>查询指定列</h3><pre><code>SELECT column_name[, column_name, ...] FROM table_name or view_name[, table_name or view_name]
+</code></pre><h3 id="查询表中不重复的记录"><a href="#查询表中不重复的记录" class="headerlink" title="查询表中不重复的记录"></a>查询表中不重复的记录</h3><pre><code>SELECT DISTINCT column_name[, column_name, ...] FROM table_name or view_name[, table_name or view_name]
+</code></pre><h3 id="使用列别名查询"><a href="#使用列别名查询" class="headerlink" title="使用列别名查询"></a>使用列别名查询</h3><pre><code>SELECT column_name AS alias_name [,column_name AS alias_name ] FROM table_name or view_name[, table_name or view_name]
+</code></pre><h3 id="对查询的记录进行算术运算"><a href="#对查询的记录进行算术运算" class="headerlink" title="对查询的记录进行算术运算"></a>对查询的记录进行算术运算</h3><pre><code>使用算术运算符对指定的列进行算术运算，算术运算符包括加减乘除。
+</code></pre><h3 id="使用连接符（-）连接字段"><a href="#使用连接符（-）连接字段" class="headerlink" title="使用连接符（||）连接字段"></a>使用连接符（||）连接字段</h3><pre><code>SELECT column_name1 || column_name2 [,column_name3, ...] FROM table_name 
+</code></pre><h2 id="where子句"><a href="#where子句" class="headerlink" title="where子句"></a>where子句</h2><h3 id="比较查询"><a href="#比较查询" class="headerlink" title="比较查询"></a>比较查询</h3><p>在where子句中可以使用比较运算符对数值、字符值等信息进行查询。比较运算符可分为三类：算数比较运算符、BETWEEN…AND运算符和IN运算符。</p>
+<h4 id="算数比较运算符"><a href="#算数比较运算符" class="headerlink" title="算数比较运算符"></a>算数比较运算符</h4><p>等于（=）、大于等于（&gt;=）、小于等于（&lt;=）、大于（&gt;）、小于（&lt;）、不等于（!=, &lt;&gt;）、不大于（！&gt;）和不小于(!&lt;)。其语法格式为：</p>
+<pre><code>column_name symbol value
+</code></pre><h4 id="BETWEEN…-AND"><a href="#BETWEEN…-AND" class="headerlink" title="BETWEEN… AND"></a>BETWEEN… AND</h4><pre><code>column_name BETWEEN value1 AND value2
+</code></pre><h4 id="IN"><a href="#IN" class="headerlink" title="IN"></a>IN</h4><pre><code>column_name IN (value1, value2, value3, ...)
+</code></pre><h4 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h4><ol>
+<li>使用比较运算符（不区分大小写）</li>
+<li>使用BINARY关键字（区分大小写）<br> SELECT string1 BINARY symbol string2<br> SELECT BINARY string1 symbol string2</li>
+</ol>
+<h4 id="日期时间的比较"><a href="#日期时间的比较" class="headerlink" title="日期时间的比较"></a>日期时间的比较</h4><h3 id="逻辑查询"><a href="#逻辑查询" class="headerlink" title="逻辑查询"></a>逻辑查询</h3><p>keyword：AND, OR, NOT</p>
+<h3 id="空值查询"><a href="#空值查询" class="headerlink" title="空值查询"></a>空值查询</h3><pre><code>IS NULL OR IS NOT NULL
+</code></pre><h3 id="LIKE操作符"><a href="#LIKE操作符" class="headerlink" title="LIKE操作符"></a>LIKE操作符</h3><p>通配符”_”: 匹配单个字符</p>
+<p>通配符”%”: 匹配0个或多个字符</p>
+<p>转义字符: 通过ESCAPE关键字定义转义字符</p>
+<pre><code>SELECT dptName, dptID
+FROM T_dpt
+WHERE dptID like &apos;$%_%&apos; ESCAPE &apos;$&apos;
+</code></pre><p>使用REGEXP关键字进行模式匹配:</p>
+<ul>
+<li>^: 匹配字符串开始。</li>
+<li>$: 匹配字符串结尾。</li>
+<li>[]: 方括号中的任何字符都可以匹配。</li>
+<li>-: 表示字符匹配的范围。e.g.: [a-z0-9]。</li>
+<li>+: 匹配一次或者多次。</li>
+<li>*: 匹配零次或者多次。</li>
+<li>(): 括号内的字符看做一个整体。</li>
+<li>{m}: 匹配m次。</li>
+</ul>
+<p>语法格式如下：</p>
+<pre><code>string REGEXP pattern_string
+</code></pre><h2 id="表中数据的排序与分组"><a href="#表中数据的排序与分组" class="headerlink" title="表中数据的排序与分组"></a>表中数据的排序与分组</h2><h3 id="ORDER-BY"><a href="#ORDER-BY" class="headerlink" title="ORDER BY"></a>ORDER BY</h3><ol>
+<li><p>指定列名：</p>
+<pre><code>ORDER BY column_name [ASC|DESC]
+</code></pre><p> 对于指定要排序的列，如果该列中存在空值的行，则在升序排序中，该行会显示在最前面，在降序排序中，该行会显示在最后面。</p>
+</li>
+<li><p>指定列的位置序号进行排列：</p>
+<pre><code>ORDER BY column_id [ASC|DESC]
+</code></pre></li>
+<li><p>指定表中的多列进行排序:</p>
+<pre><code>ORDER BY column_name1, column_name2[,column_name3] [ASC|DESC]
+</code></pre></li>
+</ol>
+<h3 id="常用的聚合函数"><a href="#常用的聚合函数" class="headerlink" title="常用的聚合函数"></a>常用的聚合函数</h3><pre><code>1. COUNT(* | column_name | expression)
+2. MAX(column_name | expression)
+3. MIN(column_name | expression)
+4. SUM(column_name | expression)
+5. AVG(column_name | expression)
+</code></pre><p><strong>ps</strong>:<br>&emsp;&emsp;COUNT, SUM, AVG可以用DISTINCT关键词去重；<br>&emsp;&emsp;除了COUNT(*), 其他函数都在计算的时候忽略空值。  </p>
+<h3 id="GROUP-BY"><a href="#GROUP-BY" class="headerlink" title="GROUP BY"></a>GROUP BY</h3><p>语法规则：</p>
+<pre><code>GROUP BY column_name1[, column_name2, ...]
+[ORDER BY ...]| [HAVING expression]
+</code></pre><h3 id="ROLLUP"><a href="#ROLLUP" class="headerlink" title="ROLLUP"></a>ROLLUP</h3><p>ROLLUP关键词可以对分组后的数据进行阶段性的操作（相当于小计），并对查询的所有数据进行统计（相当于总计）。语法规则如下：</p>
+<pre><code>GROUP BY column_name1 WITH ROLLUP
+</code></pre><h3 id="LIMIT"><a href="#LIMIT" class="headerlink" title="LIMIT"></a>LIMIT</h3><p>限制查询结果集合的行数。语法规则：</p>
+<pre><code>LIMIT n
+</code></pre><h2 id="连接查询和集合查询"><a href="#连接查询和集合查询" class="headerlink" title="连接查询和集合查询"></a>连接查询和集合查询</h2><h3 id="内连接查询"><a href="#内连接查询" class="headerlink" title="内连接查询"></a>内连接查询</h3><p>定义：将几个表连接起来并查询满足条件的记录。</p>
+<h4 id="等值连接"><a href="#等值连接" class="headerlink" title="等值连接"></a>等值连接</h4><pre><code>SELECT table_name1.column_name, table_name2.column_name
+FROM table_name1, table_name2
+WHERE table1.column_name1 = table_name2.column_name2
+
+#alias
+SELECT A.column_name, B.column_name
+FROM table_name1 A, table_name2 B
+WHERE A.column_name1 = B.column_name2
+
+#inner join
+SELECT A.column_name, B.column_name
+FROM table_name1 A INNER JOIN table_name2 B
+ON A.column_name1 = B.column_name2
+</code></pre><h4 id="非等值连接"><a href="#非等值连接" class="headerlink" title="非等值连接"></a>非等值连接</h4><p>使用除等号运算符以外的其他运算符将指定条件连接起来而执行的查询操作。</p>
+<h4 id="USING子句"><a href="#USING子句" class="headerlink" title="USING子句"></a>USING子句</h4><pre><code>SELECT A.column_name, B.column_name
+FROM table_name1 A JOIN table_name2
+USING (column_name)
+</code></pre><h3 id="外连接查询"><a href="#外连接查询" class="headerlink" title="外连接查询"></a>外连接查询</h3><p>外连接查询不仅可以返回满足连接条件的记录，对于一个数据表中的在另一个数据表不匹配的记录也能够返回。</p>
+<h4 id="左外连接"><a href="#左外连接" class="headerlink" title="左外连接"></a>左外连接</h4><p>返回满足连接条件的记录和左边的所有不满足连接条件的记录。</p>
+<pre><code>SELECT table_name1.column_name, table_name2.column_name, ...
+FROM table_name1 LEFT JOIN table_name2
+ON table_name1.column_name1 = table_name2.column_name2
+</code></pre><h4 id="右外连接"><a href="#右外连接" class="headerlink" title="右外连接"></a>右外连接</h4><p>返回满足连接条件的记录和右边的所有不满足连接条件的记录。</p>
+<pre><code>SELECT table_name1.column_name, table_name2.column_name, ...
+FROM table_name1 RIGHT JOIN table_name2
+ON table_name1.column_name1 = table_name2.column_name2
+</code></pre><h4 id="全外连接"><a href="#全外连接" class="headerlink" title="全外连接"></a>全外连接</h4><p>返回满足连接条件的记录、左边和右边的所有不满足连接条件的记录。</p>
+<pre><code>SELECT table_name1.column_name, table_name2.column_name, ...
+FROM table_name1 FULL [OUTER] JOIN table_name2
+ON table_name1.column_name1 = table_name2.column_name2
+</code></pre><h3 id="集合查询"><a href="#集合查询" class="headerlink" title="集合查询"></a>集合查询</h3><h4 id="并操作"><a href="#并操作" class="headerlink" title="并操作"></a>并操作</h4><pre><code>SELECT sentence 1
+UNION
+SELECT sentence 2
+</code></pre><h4 id="交操作"><a href="#交操作" class="headerlink" title="交操作"></a>交操作</h4><pre><code>SELECT sentence 1
+INTERSECT
+SELECT sentence 2
+</code></pre><h4 id="差操作"><a href="#差操作" class="headerlink" title="差操作"></a>差操作</h4><pre><code>SELECT sentence 1
+MINUS
+SELECT sentence 2
+</code></pre><h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><p>子查询是指将一个SELECT查询语句嵌套在另一个SQL查询语句中。也称嵌套查询。</p>
+<h3 id="单行子查询"><a href="#单行子查询" class="headerlink" title="单行子查询"></a>单行子查询</h3><p>子查询的查询语句返回的是一行数据</p>
+<h3 id="多行子查询"><a href="#多行子查询" class="headerlink" title="多行子查询"></a>多行子查询</h3><p>子查询返回的结果中含有多行数据。</p>
+<ol>
+<li><p>IN 运算符的子查询：</p>
+<pre><code>SELECT ... FROM ... WHERE col_name [NOT] IN (SELECT 子句) [ORDER BY ...]
+</code></pre></li>
+<li><p>ANY 运算符的子查询: 只要与子查询的结果集合中的任何一个结果匹配，即可返回。</p>
+<pre><code>SELECT ... FROM ... WHERE col_name op ANY(SELECT 子句) [ORDER BY ...]
+</code></pre></li>
+<li><p>ALL 运算符的子查询：必须与子查询的所有结果相匹配，才能返回。</p>
+<pre><code>SELECT ... FROM ... WHERE col_name op ALL(SELECT 子句) [ORDER BY ...]
+</code></pre></li>
+</ol>
+<h3 id="多列子查询"><a href="#多列子查询" class="headerlink" title="多列子查询"></a>多列子查询</h3><p>子查询的语句会返回多个数据列的子查询语句。在多列子查询中，WHERE子句中需要使用括号吧多个属性名称括在一起，用逗号隔开。</p>
+<pre><code>SELECT ... FROM ... WHRER (col_name1, col_name2, ...) op (SELECT 子句)
+</code></pre><h3 id="相关子查询"><a href="#相关子查询" class="headerlink" title="相关子查询"></a>相关子查询</h3><p>// to do.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag">#MySQL</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/07/mysql_1/" rel="next" title="MySQL介绍(1)： 数据库和数据表的创建和管理">
+                <i class="fa fa-chevron-left"></i> MySQL介绍(1)： 数据库和数据表的创建和管理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/13/Algorithm_tile_laying_problem/" rel="prev" title="[Algorithm]铺瓷砖问题">
+                [Algorithm]铺瓷砖问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head-pic.jpeg"
+               alt="Gavin9" />
+          <p class="site-author-name" itemprop="name">Gavin9</p>
+          <p class="site-description motion-element" itemprop="description">Keep pushing.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kidd9thu" target="_blank" title="Github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2049562532/profile" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本查询操作"><span class="nav-number">1.</span> <span class="nav-text">基本查询操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询全部记录"><span class="nav-number">1.1.</span> <span class="nav-text">查询全部记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询指定列"><span class="nav-number">1.2.</span> <span class="nav-text">查询指定列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询表中不重复的记录"><span class="nav-number">1.3.</span> <span class="nav-text">查询表中不重复的记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用列别名查询"><span class="nav-number">1.4.</span> <span class="nav-text">使用列别名查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对查询的记录进行算术运算"><span class="nav-number">1.5.</span> <span class="nav-text">对查询的记录进行算术运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用连接符（-）连接字段"><span class="nav-number">1.6.</span> <span class="nav-text">使用连接符（||）连接字段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#where子句"><span class="nav-number">2.</span> <span class="nav-text">where子句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#比较查询"><span class="nav-number">2.1.</span> <span class="nav-text">比较查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算数比较运算符"><span class="nav-number">2.1.1.</span> <span class="nav-text">算数比较运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BETWEEN…-AND"><span class="nav-number">2.1.2.</span> <span class="nav-text">BETWEEN… AND</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IN"><span class="nav-number">2.1.3.</span> <span class="nav-text">IN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串比较"><span class="nav-number">2.1.4.</span> <span class="nav-text">字符串比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日期时间的比较"><span class="nav-number">2.1.5.</span> <span class="nav-text">日期时间的比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑查询"><span class="nav-number">2.2.</span> <span class="nav-text">逻辑查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空值查询"><span class="nav-number">2.3.</span> <span class="nav-text">空值查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LIKE操作符"><span class="nav-number">2.4.</span> <span class="nav-text">LIKE操作符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表中数据的排序与分组"><span class="nav-number">3.</span> <span class="nav-text">表中数据的排序与分组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ORDER-BY"><span class="nav-number">3.1.</span> <span class="nav-text">ORDER BY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用的聚合函数"><span class="nav-number">3.2.</span> <span class="nav-text">常用的聚合函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GROUP-BY"><span class="nav-number">3.3.</span> <span class="nav-text">GROUP BY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ROLLUP"><span class="nav-number">3.4.</span> <span class="nav-text">ROLLUP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LIMIT"><span class="nav-number">3.5.</span> <span class="nav-text">LIMIT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接查询和集合查询"><span class="nav-number">4.</span> <span class="nav-text">连接查询和集合查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内连接查询"><span class="nav-number">4.1.</span> <span class="nav-text">内连接查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#等值连接"><span class="nav-number">4.1.1.</span> <span class="nav-text">等值连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非等值连接"><span class="nav-number">4.1.2.</span> <span class="nav-text">非等值连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#USING子句"><span class="nav-number">4.1.3.</span> <span class="nav-text">USING子句</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外连接查询"><span class="nav-number">4.2.</span> <span class="nav-text">外连接查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#左外连接"><span class="nav-number">4.2.1.</span> <span class="nav-text">左外连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#右外连接"><span class="nav-number">4.2.2.</span> <span class="nav-text">右外连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全外连接"><span class="nav-number">4.2.3.</span> <span class="nav-text">全外连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合查询"><span class="nav-number">4.3.</span> <span class="nav-text">集合查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#并操作"><span class="nav-number">4.3.1.</span> <span class="nav-text">并操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交操作"><span class="nav-number">4.3.2.</span> <span class="nav-text">交操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#差操作"><span class="nav-number">4.3.3.</span> <span class="nav-text">差操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子查询"><span class="nav-number">5.</span> <span class="nav-text">子查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单行子查询"><span class="nav-number">5.1.</span> <span class="nav-text">单行子查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多行子查询"><span class="nav-number">5.2.</span> <span class="nav-text">多行子查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多列子查询"><span class="nav-number">5.3.</span> <span class="nav-text">多列子查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关子查询"><span class="nav-number">5.4.</span> <span class="nav-text">相关子查询</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gavin9</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

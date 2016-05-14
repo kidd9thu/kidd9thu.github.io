@@ -1,0 +1,694 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="简介Android 系统的四大组件为活动（Activity）、服务（Service）、 广播接收者（Broadcast Receiver）和内容提供者（Content Provider）。其中活动是所有android应用程序的界面，你所看到的所有android应用里的东西，都是放在activity里面的。Service则是在后台默默运行的进程，即使退出程序，服务也可以仍然运行。广播接收者允许你的应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android四大组件介绍">
+<meta property="og:url" content="https://kidd9thu.github.io/2016/05/04/android-four-components-introduction/index.html">
+<meta property="og:site_name" content="Gavin9' Blog">
+<meta property="og:description" content="简介Android 系统的四大组件为活动（Activity）、服务（Service）、 广播接收者（Broadcast Receiver）和内容提供者（Content Provider）。其中活动是所有android应用程序的界面，你所看到的所有android应用里的东西，都是放在activity里面的。Service则是在后台默默运行的进程，即使退出程序，服务也可以仍然运行。广播接收者允许你的应">
+<meta property="og:updated_time" content="2016-05-04T16:21:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android四大组件介绍">
+<meta name="twitter:description" content="简介Android 系统的四大组件为活动（Activity）、服务（Service）、 广播接收者（Broadcast Receiver）和内容提供者（Content Provider）。其中活动是所有android应用程序的界面，你所看到的所有android应用里的东西，都是放在activity里面的。Service则是在后台默默运行的进程，即使退出程序，服务也可以仍然运行。广播接收者允许你的应">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Android四大组件介绍 | Gavin9' Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Gavin9' Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android四大组件介绍
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-04T21:52:12+08:00" content="2016-05-04">
+              2016-05-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Dev/" itemprop="url" rel="index">
+                    <span itemprop="name">Dev</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Dev/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Android 系统的四大组件为活动（Activity）、服务（Service）、 广播接收者（Broadcast Receiver）和内容提供者（Content Provider）。<br>其中活动是所有android应用程序的界面，你所看到的所有android应用里的东西，都是放在activity里面的。Service则是在后台默默运行的进程，即使退出程序，服务也可以仍然运行。广播接收者允许你的应用接受来自其他程序的广播消息，当然你也可以借助它向其他程序广播消息。内容提供者则为应用程序之间的数据共享提供了一种方便且安全的方法。</p>
+<h3 id="活动（Activity）"><a href="#活动（Activity）" class="headerlink" title="活动（Activity）"></a>活动（Activity）</h3><h4 id="活动的基本用法"><a href="#活动的基本用法" class="headerlink" title="活动的基本用法"></a>活动的基本用法</h4><p>活动是一种包含用户界面的组件，主要用于和用户进行交互。一个应用程序中可以包含零个或多个活动。<br>所有的活动都需要继承Activity类，并重写 Activity 的 onCreate()方法。</p>
+<pre><code>public class FirstActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.id.first_layout);
+    }
+}
+</code></pre><p>这里调用了 setContentView()方法来给当前的活动加载一个布局，而在 setContentView()方法中，我们一般都会传入一个布局文件的 id。</p>
+<p>所有的活动都要在 AndroidManifest.xml 中进行注册才能生效。</p>
+<pre><code>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;com.example.activitytest&quot;
+    android:versionCode=&quot;1&quot;
+    android:versionName=&quot;1.0&quot; &gt;
+    &lt;uses-sdk
+        android:minSdkVersion=&quot;14&quot;
+        android:targetSdkVersion=&quot;19&quot; /&gt;
+    &lt;application
+        android:allowBackup=&quot;true&quot;
+        android:icon=&quot;@drawable/ic_launcher&quot;
+        android:label=&quot;@string/app_name&quot;
+        android:theme=&quot;@style/AppTheme&quot;&gt;
+        &lt;activity
+            android:name=&quot;.FirstActivity&quot;
+            android:label=&quot;This is FirstActivity&quot; &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre><p>可以看到，活动的注册声明要放在<application\>标签内，这里是通过<activity\>标签来对活动进行注册的。首先我们要使用android:name 来指定具体注册哪一个活动，然后我们使用了android:label指定活动中标题栏的内容。需要注意的是，给主活动指定的label不仅会成为标题栏中的内容，还会成为启动器(Launcher)中应用程序显示的名称。之后在<activity\>标签的内部我们加入了<intent-filter>标签，并在这个标签里添加了<action android:name="android.intent.action.MAIN" \="">和<category android:name="android.intent.category.LAUNCHER" \=""> 这两句声明。如果你想让 FirstActivity 作为我们这个程序的主活动，即点击桌面应用程序图标时首先打开的就是这个活动，那就一定要加入这两句声明。</category></action></intent-filter></activity\></activity\></application\></p>
+<h5 id="隐藏标题栏"><a href="#隐藏标题栏" class="headerlink" title="隐藏标题栏"></a>隐藏标题栏</h5><pre><code>requestWindowFeature(Window.FEATURE_NO_TITLE);
+</code></pre><h5 id="在活动中使用Toast"><a href="#在活动中使用Toast" class="headerlink" title="在活动中使用Toast"></a>在活动中使用Toast</h5><pre><code>Toast.makeText(FirstActivity.this, &quot;You clicked Button 1&quot;,
+    Toast.LENGTH_SHORT).show();
+</code></pre><p>makeText()方法需要传入三个参数。第一个参数是Context，也就是Toast要求的上下文，由于活动本身就是一个Context对象，因此这里直接传入 FirstActivity.this即可。第二个参数是Toast显示的文本内容，第三个参数是Toast显示的时长，有两个内置常量可以选择Toast.LENGTH_SHORT和 Toast.LENGTH_LONG。</p>
+<h5 id="组件和布局的关联"><a href="#组件和布局的关联" class="headerlink" title="组件和布局的关联"></a>组件和布局的关联</h5><pre><code>Button button1 = (Button) findViewById(R.id.button_1);
+</code></pre><p>在活动中，可以通过 findViewById()方法获取到在布局文件中定义的元素，findViewById()方法返回的是一个 View 对象，我们需要向下转型将它转成 Button 对象。</p>
+<h5 id="在活动中使用Menu"><a href="#在活动中使用Menu" class="headerlink" title="在活动中使用Menu"></a>在活动中使用Menu</h5><p>首先在 res 目录下新建一个 menu 文件夹，然后新建一个叫menu的布局文件menu.xml。</p>
+<pre><code>&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; &gt;
+    &lt;item
+        android:id=&quot;@+id/add_item&quot;
+        android:title=&quot;Add&quot;/&gt;
+    &lt;item
+        android:id=&quot;@+id/remove_item&quot;
+        android:title=&quot;Remove&quot;/&gt;
+&lt;/menu&gt;
+</code></pre><p>在Activity中重写onCreateOptionsMenu()和onOptionsItemSelected()函数。</p>
+<pre><code>@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main, menu);
+    return true;
+}
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case R.id.add_item:
+        Toast.makeText(this, &quot;You clicked Add&quot;, Toast.LENGTH_SHORT).show();
+        break;
+    case R.id.remove_item:
+        Toast.makeText(this, &quot;You clicked Remove&quot;, Toast.LENGTH_SHORT).show();
+        break;
+    default:
+    }
+    return true;
+}
+</code></pre><p>通过 getMenuInflater()方法能够得到 MenuInflater 对象，再调用它的 inflate()方法就可以给当前活动创建菜单了。inflate()方法接收两个参数，第一个参数用于指定我们通过哪一个资源文件来创建菜单，这里当然传入 R.menu.main，第二个参数用于指定我们的菜单项将添加到哪 一个 Menu 对象当中，这里直接使用 onCreateOptionsMenu()方法中传入的 menu 参数。然后给这个方法返回 true，表示允许创建的菜单显示出来，如果返回了 false，创建的菜单将无法显示。</p>
+<p>在 onOptionsItemSelected()方法中，通过调用 item.getItemId()来判断我们点击的是哪一个菜单项，然后给每个菜单项加入自己的逻辑处理。</p>
+<h5 id="销毁活动"><a href="#销毁活动" class="headerlink" title="销毁活动"></a>销毁活动</h5><pre><code>finish();
+</code></pre><p>只要按一下 Back 键就可以销毁当前的活动了。不过如果你不想通过按键的方式，而是希望在程序中通过代码来销毁活动，当然也可以，Activity 类 供了一 个 finish()方法，我们在活动中调用一下这个方法就可以销毁当前活动了。</p>
+<h4 id="使用Intent在Activity之间通信"><a href="#使用Intent在Activity之间通信" class="headerlink" title="使用Intent在Activity之间通信"></a>使用Intent在Activity之间通信</h4>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/03/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/07/mysql_1/" rel="prev" title="MySQL介绍(1)： 数据库和数据表的创建和管理">
+                MySQL介绍(1)： 数据库和数据表的创建和管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head-pic.jpeg"
+               alt="Gavin9" />
+          <p class="site-author-name" itemprop="name">Gavin9</p>
+          <p class="site-description motion-element" itemprop="description">Keep pushing.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kidd9thu" target="_blank" title="Github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2049562532/profile" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#活动（Activity）"><span class="nav-number">2.</span> <span class="nav-text">活动（Activity）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#活动的基本用法"><span class="nav-number">2.1.</span> <span class="nav-text">活动的基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#隐藏标题栏"><span class="nav-number">2.1.1.</span> <span class="nav-text">隐藏标题栏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在活动中使用Toast"><span class="nav-number">2.1.2.</span> <span class="nav-text">在活动中使用Toast</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#组件和布局的关联"><span class="nav-number">2.1.3.</span> <span class="nav-text">组件和布局的关联</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在活动中使用Menu"><span class="nav-number">2.1.4.</span> <span class="nav-text">在活动中使用Menu</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#销毁活动"><span class="nav-number">2.1.5.</span> <span class="nav-text">销毁活动</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Intent在Activity之间通信"><span class="nav-number">2.2.</span> <span class="nav-text">使用Intent在Activity之间通信</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gavin9</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

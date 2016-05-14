@@ -1,0 +1,681 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MySQL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="数据库的创建和删除创建数据库CREATE DATABASE database_name;
+删除数据库DROP DATABASE database_name;
+数据表的创建与更新基本概念数据表（table）数据表是存储数据的基本单元，用于描述一个关系。由行和列两部分组成。其中行用来描述实体中的具体数据，一行数据也被称为一条数据记录，或简称记录。字段是表中的一列，用来保存数据的某一特定信息。
+主键（p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL介绍(1)： 数据库和数据表的创建和管理">
+<meta property="og:url" content="https://kidd9thu.github.io/2016/05/07/mysql_1/index.html">
+<meta property="og:site_name" content="Gavin9' Blog">
+<meta property="og:description" content="数据库的创建和删除创建数据库CREATE DATABASE database_name;
+删除数据库DROP DATABASE database_name;
+数据表的创建与更新基本概念数据表（table）数据表是存储数据的基本单元，用于描述一个关系。由行和列两部分组成。其中行用来描述实体中的具体数据，一行数据也被称为一条数据记录，或简称记录。字段是表中的一列，用来保存数据的某一特定信息。
+主键（p">
+<meta property="og:updated_time" content="2016-05-10T12:53:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL介绍(1)： 数据库和数据表的创建和管理">
+<meta name="twitter:description" content="数据库的创建和删除创建数据库CREATE DATABASE database_name;
+删除数据库DROP DATABASE database_name;
+数据表的创建与更新基本概念数据表（table）数据表是存储数据的基本单元，用于描述一个关系。由行和列两部分组成。其中行用来描述实体中的具体数据，一行数据也被称为一条数据记录，或简称记录。字段是表中的一列，用来保存数据的某一特定信息。
+主键（p">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> MySQL介绍(1)： 数据库和数据表的创建和管理 | Gavin9' Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Gavin9' Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MySQL介绍(1)： 数据库和数据表的创建和管理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-07T21:21:59+08:00" content="2016-05-07">
+              2016-05-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Dev/" itemprop="url" rel="index">
+                    <span itemprop="name">Dev</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Dev/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="数据库的创建和删除"><a href="#数据库的创建和删除" class="headerlink" title="数据库的创建和删除"></a>数据库的创建和删除</h2><h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><pre><code>CREATE DATABASE database_name;
+</code></pre><h3 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h3><pre><code>DROP DATABASE database_name;
+</code></pre><h2 id="数据表的创建与更新"><a href="#数据表的创建与更新" class="headerlink" title="数据表的创建与更新"></a>数据表的创建与更新</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="数据表（table）"><a href="#数据表（table）" class="headerlink" title="数据表（table）"></a>数据表（table）</h4><p>数据表是存储数据的基本单元，用于描述一个关系。由行和列两部分组成。其中行用来描述实体中的具体数据，一行数据也被称为一条数据记录，或简称记录。字段是表中的一列，用来保存数据的某一特定信息。</p>
+<h4 id="主键（primary-key）"><a href="#主键（primary-key）" class="headerlink" title="主键（primary key）"></a>主键（primary key）</h4><p>用于唯一标示一条记录，必须唯一且不能为null。</p>
+<h4 id="外键（foreign-key）"><a href="#外键（foreign-key）" class="headerlink" title="外键（foreign key）"></a>外键（foreign key）</h4><p>如果属性列F是关系B的一个属性，同时也是关系A的主键，则称F为关系B的外键。关系A的表称为主表，关系B的表称为主表的从表。</p>
+<h4 id="索引（index）"><a href="#索引（index）" class="headerlink" title="索引（index）"></a>索引（index）</h4><p>对数据的一个列或者多个列进行索引，加快对数据表的访问。where后面的字段如果有索引，则根据索引进行查找，否则逐条进行扫描。</p>
+<h4 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h4><p>唯一约束（UNIQUE）：列内的取值不可重复，但可以为空。<br>主键约束（PRIMARY KEY）：列内的取值唯一且不为空，一个列只能定义一个primary key。<br>外键约束（FOREIGN KEY）：确保一个表的操作不会对与之关联的表造成不利影响。<br>检查约束（CHECK）：限制列的取值范围或者取之条件。<br>非空约束（NOT NULL）：不能为空值。</p>
+<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><pre><code>CREATE TABLE table_name{
+    column_name1 datatype1 [constraint_condition1]
+    [, column_name2 datatype2 [constraint_condition2]]
+}
+</code></pre><h3 id="使用约束"><a href="#使用约束" class="headerlink" title="使用约束"></a>使用约束</h3><ul>
+<li><p>唯一约束：<br>可以定义在表级上，也可以定义在列级上。一般为列创建唯一约束后，数据库会自动为该列建立一个唯一索引。</p>
+</li>
+<li><p>主键约束：<br>使用一个列定义：直接在constraint_condition中添加；<br>使用多个列定义：PRIMARY KEY(col_name1[, col_name2])</p>
+</li>
+<li><p>外键约束：</p>
+<pre><code>FROEIGN KEY[表名\](列名) REFERENCES 表名(列名)
+[ON UPDATE [CASCADE\]|[SET NULL\]|[\RESTRICT]\]
+[ON DELETE [CASCADE\]|[SET NULL\]|[\RESTRICT]\]  
+</code></pre><p>CASECADE：级联删除。如果主表中的一条数据记录被删除，那么从表中与之相对应的数据也将被一起删除。<br>SET NULL：置空删除。如果主表中的一条数据记录被删除，那么从表中与之相对应的数据也将被设置为空值。<br>RESTRICT：受限删除。如果主表中的一条数据记录被删除，则在执行DELETE命令时数据库管理系统会报错，提示用户和主表相关联的数据在从表中仍然存在。并不会对从表中的数据进行删除处理。默认方式。</p>
+</li>
+<li><p>检查约束：<br>  CHECK(condition)</p>
+</li>
+<li><p>非空约束：<br>  [constriant_condition = NOT NULL]</p>
+</li>
+</ul>
+<h3 id="使用索引"><a href="#使用索引" class="headerlink" title="使用索引"></a>使用索引</h3><p>索引可以分为唯一索引，主索引，单列索引，复合索引以及聚簇索引等。</p>
+<ul>
+<li><p>唯一索引：在数据表中使用UNIQUE关键字可以为一个数据列定义一个唯一索引。</p>
+</li>
+<li><p>主索引：在数据表中使用PRIMARY KEY关键字可以为一个数据列定义一个主索引。</p>
+</li>
+<li><p>单列索引： 定义在一个数据列上的索引。</p>
+</li>
+<li><p>复合索引：定义在一个数据表的多个数据列上。</p>
+</li>
+<li><p>聚簇索引： ？</p>
+</li>
+</ul>
+<h4 id="创建和删除索引"><a href="#创建和删除索引" class="headerlink" title="创建和删除索引"></a>创建和删除索引</h4><p>创建索引：</p>
+<pre><code>CREATE [UINQUE]|[CLUSTER] INDEX index_name ON table_name(column_name [排序方式])
+</code></pre><p>删除索引：</p>
+<pre><code>DROP INDEX index_name
+</code></pre><h3 id="修改数据库中的表"><a href="#修改数据库中的表" class="headerlink" title="修改数据库中的表"></a>修改数据库中的表</h3><h4 id="增加一列"><a href="#增加一列" class="headerlink" title="增加一列"></a>增加一列</h4><pre><code>ALTER TABLE table_name ADD(column_name datatype [constraint_condition])
+</code></pre><h4 id="增加一个约束条件"><a href="#增加一个约束条件" class="headerlink" title="增加一个约束条件"></a>增加一个约束条件</h4><pre><code>ALTER TABLE table_name ADD constraint_type(column_name)
+</code></pre><h4 id="增加一个索引"><a href="#增加一个索引" class="headerlink" title="增加一个索引"></a>增加一个索引</h4><pre><code>ALTER TABLE table_name ADD INDEX(column_name1 [, column_name2] ...)
+</code></pre><h4 id="修改表中的某一列"><a href="#修改表中的某一列" class="headerlink" title="修改表中的某一列"></a>修改表中的某一列</h4><pre><code>ALTER TABLE table_name MODIFY column_name datatype
+</code></pre><h4 id="删除表中的某一列"><a href="#删除表中的某一列" class="headerlink" title="删除表中的某一列"></a>删除表中的某一列</h4><pre><code>ALTER TABLE table_name DROP column_name
+</code></pre><h4 id="删除一个约束条件"><a href="#删除一个约束条件" class="headerlink" title="删除一个约束条件"></a>删除一个约束条件</h4><pre><code>ALTER TABLE table_name DROP constraint_type
+</code></pre><h4 id="删除数据库中的表"><a href="#删除数据库中的表" class="headerlink" title="删除数据库中的表"></a>删除数据库中的表</h4><pre><code>DROP TABLE table_name [CASCADE CONSTRAINTS]
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag">#MySQL</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/04/android-four-components-introduction/" rel="next" title="Android四大组件介绍">
+                <i class="fa fa-chevron-left"></i> Android四大组件介绍
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/10/mysql_2/" rel="prev" title="MySQL介绍(2)： 数据查询（Data Query Language，DQL）">
+                MySQL介绍(2)： 数据查询（Data Query Language，DQL） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head-pic.jpeg"
+               alt="Gavin9" />
+          <p class="site-author-name" itemprop="name">Gavin9</p>
+          <p class="site-description motion-element" itemprop="description">Keep pushing.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/kidd9thu" target="_blank" title="Github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2049562532/profile" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库的创建和删除"><span class="nav-number">1.</span> <span class="nav-text">数据库的创建和删除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建数据库"><span class="nav-number">1.1.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除数据库"><span class="nav-number">1.2.</span> <span class="nav-text">删除数据库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据表的创建与更新"><span class="nav-number">2.</span> <span class="nav-text">数据表的创建与更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-number">2.1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据表（table）"><span class="nav-number">2.1.1.</span> <span class="nav-text">数据表（table）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主键（primary-key）"><span class="nav-number">2.1.2.</span> <span class="nav-text">主键（primary key）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键（foreign-key）"><span class="nav-number">2.1.3.</span> <span class="nav-text">外键（foreign key）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引（index）"><span class="nav-number">2.1.4.</span> <span class="nav-text">索引（index）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#约束"><span class="nav-number">2.1.5.</span> <span class="nav-text">约束</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建表"><span class="nav-number">2.2.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用约束"><span class="nav-number">2.3.</span> <span class="nav-text">使用约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用索引"><span class="nav-number">2.4.</span> <span class="nav-text">使用索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建和删除索引"><span class="nav-number">2.4.1.</span> <span class="nav-text">创建和删除索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改数据库中的表"><span class="nav-number">2.5.</span> <span class="nav-text">修改数据库中的表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#增加一列"><span class="nav-number">2.5.1.</span> <span class="nav-text">增加一列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增加一个约束条件"><span class="nav-number">2.5.2.</span> <span class="nav-text">增加一个约束条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增加一个索引"><span class="nav-number">2.5.3.</span> <span class="nav-text">增加一个索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改表中的某一列"><span class="nav-number">2.5.4.</span> <span class="nav-text">修改表中的某一列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除表中的某一列"><span class="nav-number">2.5.5.</span> <span class="nav-text">删除表中的某一列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除一个约束条件"><span class="nav-number">2.5.6.</span> <span class="nav-text">删除一个约束条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除数据库中的表"><span class="nav-number">2.5.7.</span> <span class="nav-text">删除数据库中的表</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gavin9</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
