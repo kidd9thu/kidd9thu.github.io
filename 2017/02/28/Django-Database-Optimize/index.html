@@ -85,10 +85,10 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django数据库性能优化">
 <meta property="og:url" content="https://kidd9thu.github.io/2017/02/28/Django-Database-Optimize/index.html">
-<meta property="og:site_name" content="Gavin9' Blog">
+<meta property="og:site_name" content="KID9' Blog">
 <meta property="og:description" content="Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。1.使用标准的数据库优化技术在进行Django数据库访问性能优化之前，首先应该使用标准的数据库技术对其进行优化，比如给字段加索引，通过使用django.db.models.Field.db_index 来给一个Django模型类的字段加索引，设置这个属性字段的Field.db_index=True。
 注：d">
-<meta property="og:updated_time" content="2017-02-28T08:36:21.000Z">
+<meta property="og:updated_time" content="2017-02-28T08:40:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django数据库性能优化">
 <meta name="twitter:description" content="Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。1.使用标准的数据库优化技术在进行Django数据库访问性能优化之前，首先应该使用标准的数据库技术对其进行优化，比如给字段加索引，通过使用django.db.models.Field.db_index 来给一个Django模型类的字段加索引，设置这个属性字段的Field.db_index=True。
@@ -110,7 +110,7 @@
   };
 </script>
 
-  <title> Django数据库性能优化 | Gavin9' Blog </title>
+  <title> Django数据库性能优化 | KID9' Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -141,7 +141,7 @@
   <div class="custom-logo-site-title">
     <a href="/"  class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Gavin9' Blog</span>
+      <span class="site-title">KID9' Blog</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -326,7 +326,7 @@
 <h3 id="5-使用iterator-方法"><a href="#5-使用iterator-方法" class="headerlink" title="5.使用iterator()方法"></a>5.使用iterator()方法</h3><p>对于缓存的QuerySet使用iterator()方法</p>
 <h3 id="6-将查询计算操作放在数据库中完成，不要在Python代码中完成。"><a href="#6-将查询计算操作放在数据库中完成，不要在Python代码中完成。" class="headerlink" title="6.将查询计算操作放在数据库中完成，不要在Python代码中完成。"></a>6.将查询计算操作放在数据库中完成，不要在Python代码中完成。</h3><p>1) 使用filter,exclude完成查询过滤；<br>2) F()查询表达式;<br>3) 使用聚合函数来完成数据库聚合操作。</p>
 <h3 id="7-使用QuerySet-extra-明确的指出要查询的字段"><a href="#7-使用QuerySet-extra-明确的指出要查询的字段" class="headerlink" title="7.使用QuerySet.extra()明确的指出要查询的字段"></a>7.使用QuerySet.extra()明确的指出要查询的字段</h3><h3 id="8-使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。"><a href="#8-使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。" class="headerlink" title="8.使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。"></a>8.使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。</h3><h3 id="9-尽量一次查询出所有需要的信息"><a href="#9-尽量一次查询出所有需要的信息" class="headerlink" title="9.尽量一次查询出所有需要的信息"></a>9.尽量一次查询出所有需要的信息</h3><h3 id="10-理解-QuerySet-select-related-方法，并尽量使用它。"><a href="#10-理解-QuerySet-select-related-方法，并尽量使用它。" class="headerlink" title="10.理解 QuerySet.select_related()方法，并尽量使用它。"></a>10.理解 QuerySet.select_related()方法，并尽量使用它。</h3><h3 id="11-只查询需要的数据"><a href="#11-只查询需要的数据" class="headerlink" title="11.只查询需要的数据"></a>11.只查询需要的数据</h3><p>1）某些情况下，只使用 QuerySet.values()和 values_list()方法，查询出符合条件的结果集而不是完整的对象结果集；<br>2）某些情况下，只使用 QuerySet.defer() 和 only()过滤数据。</p>
-<h3 id="12-如果只是查询集合的数量，使用QuerySet-count-函数，而不是len-QuerySet"><a href="#12-如果只是查询集合的数量，使用QuerySet-count-函数，而不是len-QuerySet" class="headerlink" title="12.如果只是查询集合的数量，使用QuerySet.count()函数，而不是len(QuerySet)"></a>12.如果只是查询集合的数量，使用QuerySet.count()函数，而不是len(QuerySet)</h3><h3 id="13-如果想知道某个记录是否包含在某个结果集中，使用-QuerySet-exists-函数"><a href="#13-如果想知道某个记录是否包含在某个结果集中，使用-QuerySet-exists-函数" class="headerlink" title="13.如果想知道某个记录是否包含在某个结果集中，使用 QuerySet.exists()函数"></a>13.如果想知道某个记录是否包含在某个结果集中，使用 QuerySet.exists()函数</h3><h3 id="14-避免过多的使用count-和-exists-函数，比如下面的代码"><a href="#14-避免过多的使用count-和-exists-函数，比如下面的代码" class="headerlink" title="14.避免过多的使用count() 和 exists()函数，比如下面的代码:"></a>14.避免过多的使用count() 和 exists()函数，比如下面的代码:</h3><pre><code>{% if display_inbox %}
+<h3 id="12-如果只是查∏询集合的数量，使用QuerySet-count-函数，而不是len-QuerySet"><a href="#12-如果只是查∏询集合的数量，使用QuerySet-count-函数，而不是len-QuerySet" class="headerlink" title="12.如果只是查∏询集合的数量，使用QuerySet.count()函数，而不是len(QuerySet)"></a>12.如果只是查∏询集合的数量，使用QuerySet.count()函数，而不是len(QuerySet)</h3><h3 id="13-如果想知道某个记录是否包含在某个结果集中，使用-QuerySet-exists-函数"><a href="#13-如果想知道某个记录是否包含在某个结果集中，使用-QuerySet-exists-函数" class="headerlink" title="13.如果想知道某个记录是否包含在某个结果集中，使用 QuerySet.exists()函数"></a>13.如果想知道某个记录是否包含在某个结果集中，使用 QuerySet.exists()函数</h3><h3 id="14-避免过多的使用count-和-exists-函数，比如下面的代码"><a href="#14-避免过多的使用count-和-exists-函数，比如下面的代码" class="headerlink" title="14.避免过多的使用count() 和 exists()函数，比如下面的代码:"></a>14.避免过多的使用count() 和 exists()函数，比如下面的代码:</h3><pre><code>{% if display_inbox %}
 	{% with emails=user.emails.all %}
 	{% if emails %}
 	<p>You have {{ emails|length }} email(s)</p>
@@ -440,8 +440,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/head-pic.jpeg"
-               alt="Gavin9" />
-          <p class="site-author-name" itemprop="name">Gavin9</p>
+               alt="KID9" />
+          <p class="site-author-name" itemprop="name">KID9</p>
           <p class="site-description motion-element" itemprop="description">Keep pushing.</p>
         </div>
         <nav class="site-state motion-element">
@@ -513,7 +513,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。"><span class="nav-number">1.</span> <span class="nav-text">Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-使用标准的数据库优化技术"><span class="nav-number">1.1.</span> <span class="nav-text">1.使用标准的数据库优化技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-理解Django中QuerySet的工作机制对数据库访问优化至关重要："><span class="nav-number">1.2.</span> <span class="nav-text">2.理解Django中QuerySet的工作机制对数据库访问优化至关重要：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-理解Django中QuerySet的缓存机制"><span class="nav-number">1.3.</span> <span class="nav-text">3.理解Django中QuerySet的缓存机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-使用模板语言中的with标签"><span class="nav-number">1.4.</span> <span class="nav-text">4.使用模板语言中的with标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-使用iterator-方法"><span class="nav-number">1.5.</span> <span class="nav-text">5.使用iterator()方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-将查询计算操作放在数据库中完成，不要在Python代码中完成。"><span class="nav-number">1.6.</span> <span class="nav-text">6.将查询计算操作放在数据库中完成，不要在Python代码中完成。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-使用QuerySet-extra-明确的指出要查询的字段"><span class="nav-number">1.7.</span> <span class="nav-text">7.使用QuerySet.extra()明确的指出要查询的字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。"><span class="nav-number">1.8.</span> <span class="nav-text">8.使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-尽量一次查询出所有需要的信息"><span class="nav-number">1.9.</span> <span class="nav-text">9.尽量一次查询出所有需要的信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-理解-QuerySet-select-related-方法，并尽量使用它。"><span class="nav-number">1.10.</span> <span class="nav-text">10.理解 QuerySet.select_related()方法，并尽量使用它。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-只查询需要的数据"><span class="nav-number">1.11.</span> <span class="nav-text">11.只查询需要的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-如果只是查询集合的数量，使用QuerySet-count-函数，而不是len-QuerySet"><span class="nav-number">1.12.</span> <span class="nav-text">12.如果只是查询集合的数量，使用QuerySet.count()函数，而不是len(QuerySet)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-如果想知道某个记录是否包含在某个结果集中，使用-QuerySet-exists-函数"><span class="nav-number">1.13.</span> <span class="nav-text">13.如果想知道某个记录是否包含在某个结果集中，使用 QuerySet.exists()函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-避免过多的使用count-和-exists-函数，比如下面的代码"><span class="nav-number">1.14.</span> <span class="nav-text">14.避免过多的使用count() 和 exists()函数，比如下面的代码:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-对于批量更新和删除操作使用-QuerySet-update-和-QuerySet-delete"><span class="nav-number">1.15.</span> <span class="nav-text">15.对于批量更新和删除操作使用 QuerySet.update() 和 QuerySet.delete()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如："><span class="nav-number">1.16.</span> <span class="nav-text">16.如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如：</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。"><span class="nav-number">1.</span> <span class="nav-text">Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-使用标准的数据库优化技术"><span class="nav-number">1.1.</span> <span class="nav-text">1.使用标准的数据库优化技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-理解Django中QuerySet的工作机制对数据库访问优化至关重要："><span class="nav-number">1.2.</span> <span class="nav-text">2.理解Django中QuerySet的工作机制对数据库访问优化至关重要：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-理解Django中QuerySet的缓存机制"><span class="nav-number">1.3.</span> <span class="nav-text">3.理解Django中QuerySet的缓存机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-使用模板语言中的with标签"><span class="nav-number">1.4.</span> <span class="nav-text">4.使用模板语言中的with标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-使用iterator-方法"><span class="nav-number">1.5.</span> <span class="nav-text">5.使用iterator()方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-将查询计算操作放在数据库中完成，不要在Python代码中完成。"><span class="nav-number">1.6.</span> <span class="nav-text">6.将查询计算操作放在数据库中完成，不要在Python代码中完成。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-使用QuerySet-extra-明确的指出要查询的字段"><span class="nav-number">1.7.</span> <span class="nav-text">7.使用QuerySet.extra()明确的指出要查询的字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。"><span class="nav-number">1.8.</span> <span class="nav-text">8.使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-尽量一次查询出所有需要的信息"><span class="nav-number">1.9.</span> <span class="nav-text">9.尽量一次查询出所有需要的信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-理解-QuerySet-select-related-方法，并尽量使用它。"><span class="nav-number">1.10.</span> <span class="nav-text">10.理解 QuerySet.select_related()方法，并尽量使用它。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-只查询需要的数据"><span class="nav-number">1.11.</span> <span class="nav-text">11.只查询需要的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-如果只是查∏询集合的数量，使用QuerySet-count-函数，而不是len-QuerySet"><span class="nav-number">1.12.</span> <span class="nav-text">12.如果只是查∏询集合的数量，使用QuerySet.count()函数，而不是len(QuerySet)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-如果想知道某个记录是否包含在某个结果集中，使用-QuerySet-exists-函数"><span class="nav-number">1.13.</span> <span class="nav-text">13.如果想知道某个记录是否包含在某个结果集中，使用 QuerySet.exists()函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-避免过多的使用count-和-exists-函数，比如下面的代码"><span class="nav-number">1.14.</span> <span class="nav-text">14.避免过多的使用count() 和 exists()函数，比如下面的代码:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-对于批量更新和删除操作使用-QuerySet-update-和-QuerySet-delete"><span class="nav-number">1.15.</span> <span class="nav-text">15.对于批量更新和删除操作使用 QuerySet.update() 和 QuerySet.delete()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如："><span class="nav-number">1.16.</span> <span class="nav-text">16.如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如：</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -536,7 +536,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Gavin9</span>
+  <span class="author" itemprop="copyrightHolder">KID9</span>
 </div>
 
 <div class="powered-by">
