@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="Gavin9' Blog">
 <meta property="og:description" content="Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。1.使用标准的数据库优化技术在进行Django数据库访问性能优化之前，首先应该使用标准的数据库技术对其进行优化，比如给字段加索引，通过使用django.db.models.Field.db_index 来给一个Django模型类的字段加索引，设置这个属性字段的Field.db_index=True。
 注：d">
-<meta property="og:updated_time" content="2017-02-28T08:33:22.000Z">
+<meta property="og:updated_time" content="2017-02-28T08:35:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django数据库性能优化">
 <meta name="twitter:description" content="Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。1.使用标准的数据库优化技术在进行Django数据库访问性能优化之前，首先应该使用标准的数据库技术对其进行优化，比如给字段加索引，通过使用django.db.models.Field.db_index 来给一个Django模型类的字段加索引，设置这个属性字段的Field.db_index=True。
@@ -338,7 +338,7 @@
 	{% endif %}
 {% endwith %}
 {% endif %}
-</code></pre><p>这样做的好处是：<br>1) 如果display_inbox=False，则不必做查询；<br>2) 针对user.emails.all使用with标签，可以让数据被缓存起来使用；<br>3）<code>{\% if emails \%}</code> 会导致 <code>QuerySet.__nonzero__()</code>被调用，进而导致<code>user.emails.all()</code> 被调用；<br>4） <code>0</code>会导致 <code>QuerySet.__len__()</code>被调用，这样可以使用缓存的QuerySet；<br>5) for循环可以通过迭代来使用缓存的结果。</p>
+</code></pre><p>这样做的好处是：<br>1) 如果display_inbox=False，则不必做查询；<br>2) 针对user.emails.all使用with标签，可以让数据被缓存起来使用；<br>3）<code>if emails</code> 会导致 <code>QuerySet.__nonzero__()</code>被调用，进而导致<code>user.emails.all()</code> 被调用；<br>4） <code>emails|length</code>会导致 <code>QuerySet.__len__()</code>被调用，这样可以使用缓存的QuerySet；<br>5) for循环可以通过迭代来使用缓存的结果。</p>
 <h3 id="15-对于批量更新和删除操作使用-QuerySet-update-和-QuerySet-delete"><a href="#15-对于批量更新和删除操作使用-QuerySet-update-和-QuerySet-delete" class="headerlink" title="15.对于批量更新和删除操作使用 QuerySet.update() 和 QuerySet.delete()"></a>15.对于批量更新和删除操作使用 QuerySet.update() 和 QuerySet.delete()</h3><h3 id="16-如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如："><a href="#16-如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如：" class="headerlink" title="16.如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如："></a>16.如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如：</h3><pre><code>&gt;&gt;&gt;entry.blog_id #应该使用这种方式
 &gt;&gt;&gt;entry.blog.id #不要使用这种方式
 </code></pre>
