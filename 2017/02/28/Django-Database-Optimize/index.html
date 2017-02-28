@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="Gavin9' Blog">
 <meta property="og:description" content="Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。1.使用标准的数据库优化技术在进行Django数据库访问性能优化之前，首先应该使用标准的数据库技术对其进行优化，比如给字段加索引，通过使用django.db.models.Field.db_index 来给一个Django模型类的字段加索引，设置这个属性字段的Field.db_index=True。
 注：d">
-<meta property="og:updated_time" content="2017-02-28T08:35:11.000Z">
+<meta property="og:updated_time" content="2017-02-28T08:36:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django数据库性能优化">
 <meta name="twitter:description" content="Django的数据库层提供了很多方法来优化数据库访问的性能，这篇文章将集中介绍这方面的内容。1.使用标准的数据库优化技术在进行Django数据库访问性能优化之前，首先应该使用标准的数据库技术对其进行优化，比如给字段加索引，通过使用django.db.models.Field.db_index 来给一个Django模型类的字段加索引，设置这个属性字段的Field.db_index=True。
@@ -324,7 +324,7 @@
 &gt;&gt;&gt; entry.authors.all() # 第二次会再执行一次查询
 </code></pre><h3 id="4-使用模板语言中的with标签"><a href="#4-使用模板语言中的with标签" class="headerlink" title="4.使用模板语言中的with标签"></a>4.使用模板语言中的with标签</h3><p>在视图模板中，针对QuerySet对象使用with标签</p>
 <h3 id="5-使用iterator-方法"><a href="#5-使用iterator-方法" class="headerlink" title="5.使用iterator()方法"></a>5.使用iterator()方法</h3><p>对于缓存的QuerySet使用iterator()方法</p>
-<h3 id="6-将查询计算操作放在数据库中完成，不要在Python代码中完成。"><a href="#6-将查询计算操作放在数据库中完成，不要在Python代码中完成。" class="headerlink" title="6.将查询计算操作放在数据库中完成，不要在Python代码中完成。"></a>6.将查询计算操作放在数据库中完成，不要在Python代码中完成。</h3><p>1)使用filter,exclude完成查询过滤；<br>2) F()查询表达式;<br>3) 使用聚合函数来完成数据库聚合操作。</p>
+<h3 id="6-将查询计算操作放在数据库中完成，不要在Python代码中完成。"><a href="#6-将查询计算操作放在数据库中完成，不要在Python代码中完成。" class="headerlink" title="6.将查询计算操作放在数据库中完成，不要在Python代码中完成。"></a>6.将查询计算操作放在数据库中完成，不要在Python代码中完成。</h3><p>1) 使用filter,exclude完成查询过滤；<br>2) F()查询表达式;<br>3) 使用聚合函数来完成数据库聚合操作。</p>
 <h3 id="7-使用QuerySet-extra-明确的指出要查询的字段"><a href="#7-使用QuerySet-extra-明确的指出要查询的字段" class="headerlink" title="7.使用QuerySet.extra()明确的指出要查询的字段"></a>7.使用QuerySet.extra()明确的指出要查询的字段</h3><h3 id="8-使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。"><a href="#8-使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。" class="headerlink" title="8.使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。"></a>8.使用原生SQL查询：对于复杂的数据库查询操作，使用原生SQL实现。</h3><h3 id="9-尽量一次查询出所有需要的信息"><a href="#9-尽量一次查询出所有需要的信息" class="headerlink" title="9.尽量一次查询出所有需要的信息"></a>9.尽量一次查询出所有需要的信息</h3><h3 id="10-理解-QuerySet-select-related-方法，并尽量使用它。"><a href="#10-理解-QuerySet-select-related-方法，并尽量使用它。" class="headerlink" title="10.理解 QuerySet.select_related()方法，并尽量使用它。"></a>10.理解 QuerySet.select_related()方法，并尽量使用它。</h3><h3 id="11-只查询需要的数据"><a href="#11-只查询需要的数据" class="headerlink" title="11.只查询需要的数据"></a>11.只查询需要的数据</h3><p>1）某些情况下，只使用 QuerySet.values()和 values_list()方法，查询出符合条件的结果集而不是完整的对象结果集；<br>2）某些情况下，只使用 QuerySet.defer() 和 only()过滤数据。</p>
 <h3 id="12-如果只是查询集合的数量，使用QuerySet-count-函数，而不是len-QuerySet"><a href="#12-如果只是查询集合的数量，使用QuerySet-count-函数，而不是len-QuerySet" class="headerlink" title="12.如果只是查询集合的数量，使用QuerySet.count()函数，而不是len(QuerySet)"></a>12.如果只是查询集合的数量，使用QuerySet.count()函数，而不是len(QuerySet)</h3><h3 id="13-如果想知道某个记录是否包含在某个结果集中，使用-QuerySet-exists-函数"><a href="#13-如果想知道某个记录是否包含在某个结果集中，使用-QuerySet-exists-函数" class="headerlink" title="13.如果想知道某个记录是否包含在某个结果集中，使用 QuerySet.exists()函数"></a>13.如果想知道某个记录是否包含在某个结果集中，使用 QuerySet.exists()函数</h3><h3 id="14-避免过多的使用count-和-exists-函数，比如下面的代码"><a href="#14-避免过多的使用count-和-exists-函数，比如下面的代码" class="headerlink" title="14.避免过多的使用count() 和 exists()函数，比如下面的代码:"></a>14.避免过多的使用count() 和 exists()函数，比如下面的代码:</h3><pre><code>{% if display_inbox %}
 	{% with emails=user.emails.all %}
@@ -338,7 +338,7 @@
 	{% endif %}
 {% endwith %}
 {% endif %}
-</code></pre><p>这样做的好处是：<br>1) 如果display_inbox=False，则不必做查询；<br>2) 针对user.emails.all使用with标签，可以让数据被缓存起来使用；<br>3）<code>if emails</code> 会导致 <code>QuerySet.__nonzero__()</code>被调用，进而导致<code>user.emails.all()</code> 被调用；<br>4） <code>emails|length</code>会导致 <code>QuerySet.__len__()</code>被调用，这样可以使用缓存的QuerySet；<br>5) for循环可以通过迭代来使用缓存的结果。</p>
+</code></pre><p>这样做的好处是：<br>1) 如果display_inbox=False，则不必做查询；<br>2) 针对user.emails.all使用with标签，可以让数据被缓存起来使用；<br>3）<code>if emails</code> 会导致 <code>QuerySet.__nonzero__()</code>被调用，进而导致<code>user.emails.all()</code> 被调用；<br>4）<code>emails|length</code>会导致 <code>QuerySet.__len__()</code>被调用，这样可以使用缓存的QuerySet；<br>5) for循环可以通过迭代来使用缓存的结果。</p>
 <h3 id="15-对于批量更新和删除操作使用-QuerySet-update-和-QuerySet-delete"><a href="#15-对于批量更新和删除操作使用-QuerySet-update-和-QuerySet-delete" class="headerlink" title="15.对于批量更新和删除操作使用 QuerySet.update() 和 QuerySet.delete()"></a>15.对于批量更新和删除操作使用 QuerySet.update() 和 QuerySet.delete()</h3><h3 id="16-如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如："><a href="#16-如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如：" class="headerlink" title="16.如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如："></a>16.如果需要查询对象的外键，则使用外键字段而不是使用关联的对象的主键，比如：</h3><pre><code>&gt;&gt;&gt;entry.blog_id #应该使用这种方式
 &gt;&gt;&gt;entry.blog.id #不要使用这种方式
 </code></pre>
